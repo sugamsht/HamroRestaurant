@@ -9,13 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
  * Created by Sugam on 8/21/2017.
  */
 
-public class RestaurantAdapter extends ArrayAdapter {
+public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
     /**
      * Resource ID for the background color for this list of words
@@ -35,10 +37,8 @@ public class RestaurantAdapter extends ArrayAdapter {
                     R.layout.restaurant_list_item, parent, false);
         }
 
-        Restaurant currentRestaurant = (Restaurant) getItem(position);
+        Restaurant currentRestaurant = getItem(position);
 
-        ImageView imageView =(ImageView) listItemView.findViewById(R.id.restaurantImage);
-        imageView.setImageResource(currentRestaurant.getImageResourceId());
 
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.restaurantName);
         nameTextView.setText(currentRestaurant.getRestaurantName());
@@ -56,8 +56,19 @@ public class RestaurantAdapter extends ArrayAdapter {
 //        // Set the background color of the text container View
 //        textContainer.setBackgroundColor(color);
 
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.restaurantImage);
+        String imageUrl = currentRestaurant.getImageResource();
+        if (imageUrl != null) {
+            // Using Picasso, download the Image from the internet. Picasso will automatically handle
+            // view recycling and will not re-download the image if it has already been downloaded.
+            Picasso.with(getContext()).load(imageUrl).into(imageView);
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
 
 
         return listItemView;
     }
+
 }

@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Hamro Restaurant</string>
+
+
+    <!-- Category name for phrases [CHAR LIMIT=20] -->
+    <string name="category_info">INFO</string>
+
+    <!-- Category name for the vocabulary words for colors [CHAR LIMIT=20] -->
+    <string name="category_menu">MENU</string>
+
+    <!-- Category name for the vocabulary words for numbers [CHAR LIMIT=20] -->
+    <string name="category_review">REVIEWS</string>
+
+    <string name="google_maps_key">AIzaSyAS2E6N6_e009ypkJ9O1rY0_BRf2VCzlAs</string>
 </resources>

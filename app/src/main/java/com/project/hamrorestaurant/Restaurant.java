@@ -1,44 +1,73 @@
 package com.project.hamrorestaurant;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Sugam on 8/21/2017.
  */
 
-public class Restaurant {
+public class Restaurant implements Parcelable {
 
-    /** Image resource ID for the word */
-    private int mImageResourceId = NO_IMAGE_PROVIDED;
+    public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {
+        @Override
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
 
+        @Override
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
     /** Constant value that represents no image was provided for this word */
-    private static final int NO_IMAGE_PROVIDED = -1;
-
+    private static final String NO_IMAGE_PROVIDED = null;
+    /**
+     * Image resource ID for the word
+     */
+    private String mImageResource = NO_IMAGE_PROVIDED;
     private String mRestaurantName;
-
-
     private String mRestaurantLocation;
-
     private Double mDistance;
 
     /**
      * Create new Restaurant Object
      *
-     * @param imageResourceId is the drawable resource ID for the image associated with the restaurant
+     * @param imageResource is the drawable resource ID for the image associated with the restaurant
      * @param restaurantName is the name of the restaurant
      * @param restaurantLocation is the location of the restaurant
      */
-    public Restaurant(int imageResourceId, String restaurantName, String restaurantLocation, Double distance){
-        mImageResourceId = imageResourceId;
+    public Restaurant(String imageResource, String restaurantName, String restaurantLocation, Double distance) {
+        mImageResource = imageResource;
         mRestaurantName = restaurantName;
         mRestaurantLocation = restaurantLocation;
         mDistance = distance;
 
     }
 
+    protected Restaurant(Parcel in) {
+        mImageResource = in.readString();
+        mRestaurantName = in.readString();
+        mRestaurantLocation = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mImageResource);
+        dest.writeString(mRestaurantName);
+        dest.writeString(mRestaurantLocation);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     /**
      * Return the image resource ID of the restaurant.
      */
-    public int getImageResourceId() {
-        return mImageResourceId;
+    public String getImageResource() {
+        return mImageResource;
     }
 
     /**
@@ -64,7 +93,7 @@ public class Restaurant {
      * Returns whether or not there is an image for this word.
      */
     public boolean hasImage() {
-        return mImageResourceId != NO_IMAGE_PROVIDED;
+        return mImageResource != NO_IMAGE_PROVIDED;
     }
 
 
