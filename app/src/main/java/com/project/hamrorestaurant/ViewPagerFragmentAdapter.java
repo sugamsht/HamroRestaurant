@@ -10,10 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 /**
- * {@link CategoryAdapter} is a {@link FragmentPagerAdapter} that can provide the layout for
+ * {@link ViewPagerFragmentAdapter} is a {@link FragmentPagerAdapter} that can provide the layout for
  * each list item based on a data source which is a list of {@link Restaurant} objects.
  */
-public class CategoryAdapter extends FragmentPagerAdapter {
+public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
 
     /**
      * Context of the app
@@ -21,13 +21,13 @@ public class CategoryAdapter extends FragmentPagerAdapter {
     private Context mContext;
 
     /**
-     * Create a new {@link CategoryAdapter} object.
+     * Create a new {@link ViewPagerFragmentAdapter} object.
      *
      * @param context is the context of the app
      * @param fm      is the fragment manager that will keep each fragment's state in the adapter
      *                across swipes.
      */
-    public CategoryAdapter(Context context, FragmentManager fm) {
+    public ViewPagerFragmentAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
