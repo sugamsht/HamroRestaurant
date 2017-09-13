@@ -28,8 +28,22 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:text="Restaurant Details" />
+
+            <TextView
+                android:id="@+id/open_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                tools:text="The restaurant Status goes here" />
+
+            <TextView
+                android:id="@+id/restaurant_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                tools:text="The restaurant tags goes here" />
 
 
         </LinearLayout>

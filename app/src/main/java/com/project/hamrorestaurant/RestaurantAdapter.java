@@ -39,7 +39,6 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
         Restaurant currentRestaurant = getItem(position);
 
-
         TextView nameTextView = (TextView) listItemView.findViewById(R.id.restaurantName);
         nameTextView.setText(currentRestaurant.getRestaurantName());
 
@@ -48,6 +47,9 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
         TextView distanceTextView = (TextView) listItemView.findViewById(R.id.distance);
         distanceTextView.setText(String.valueOf(currentRestaurant.getDistance()));
+
+        TextView ratingTextView = (TextView) listItemView.findViewById((R.id.rating));
+        ratingTextView.setText(String.valueOf(currentRestaurant.getRating()));
 
 //        // Set the theme color for the list item
 //        View textContainer = listItemView.findViewById(R.id.text_container);

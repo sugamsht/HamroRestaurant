@@ -31,6 +31,26 @@
             android:textSize="20sp"
             tools:text="Restaurant Title" />
 
+        <!--<TextView-->
+        <!--android:id="@+id/restaurant_tags"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_toRightOf="@+id/detail_image_view"-->
+        <!--tools:text="The restaurant tags goes here"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginRight="20dp"-->
+        <!--android:layout_marginTop="40dp" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/open_now"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/restaurant_tags"-->
+        <!--android:layout_toRightOf="@+id/detail_image_view"-->
+        <!--android:layout_margin="20dp"-->
+        <!--tools:text="The restaurant Status goes here"-->
+        <!--/>-->
+
     </RelativeLayout>
 
 

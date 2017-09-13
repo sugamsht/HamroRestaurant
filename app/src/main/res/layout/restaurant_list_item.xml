@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="@drawable/listitem_background"
     android:orientation="horizontal"
     android:paddingEnd="16dp"
     android:paddingLeft="16dp"
@@ -13,9 +14,9 @@
         android:id="@+id/restaurantImage"
         android:layout_width="@dimen/list_item_height"
         android:layout_height="@dimen/list_item_height"
-        android:src="@drawable/bharyang"
-        android:scaleType="centerCrop"
         android:gravity="center"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bharyang"
 
          />
 
@@ -35,10 +36,10 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="sans-serif-medium"
-            android:textStyle="bold"
             android:maxLines="1"
             android:textAllCaps="true"
             android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="Bharyang" />
 
         <!--<RatingBar-->
@@ -63,17 +64,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@drawable/rating_star"
+            tools:text="5" />
 
         <TextView
             android:id="@+id/distance"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="12dp"
+            android:drawableLeft="@drawable/distance"
             android:textSize="14sp"
             tools:text="5 km" />
 

@@ -12,4 +12,18 @@
     <string name="category_review">REVIEWS</string>
 
     <string name="google_maps_key">AIzaSyAS2E6N6_e009ypkJ9O1rY0_BRf2VCzlAs</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--menu items-->
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="communicate">Communicate</string>
+    <string name="help">Help</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="signin">Login/Register</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

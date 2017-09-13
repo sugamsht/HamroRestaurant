@@ -166,14 +166,54 @@ public class QueryUtils {
                 String restaurantName = null;
                 String restaurantLocation = null;
                 String imageResourceA = null;
+                String lati = null;
+                String longi = null;
+                Double latitude = null;
+                Double longitude = null;
+                Double rating = null;
+                String restaurantStatus = "true";
+                String restaurantTags = null;
+
 
                 // Get a single restaurant at position i within the list of restaurants
                 JSONObject currentRestaurant = restaurantArray.getJSONObject(i);
 
+                JSONObject geometry = currentRestaurant.getJSONObject("geometry");
+
+                JSONObject location = geometry.getJSONObject("location");
+                lati = location.getString("lat");
+                latitude = Double.parseDouble(lati);
+//                    Log.v(LOG_TAG, "Google Latitude is: " + latitude);
+                longi = location.getString("lng");
+                longitude = Double.parseDouble(longi);
+//                    Log.v(LOG_TAG, "Google Longitude is: " + longitude);
+
+                if (currentRestaurant.has("rating")) {
+                    rating = currentRestaurant.getDouble("rating");
+                } else {
+                    rating = 0.0;
+                }
+
+
                 // Extract the value for the key called "name"
                 restaurantName = currentRestaurant.getString("name");
 
+                //Extract the location of the restaurant from key "vicinity"
                 restaurantLocation = currentRestaurant.getString("vicinity");
+
+                //Extract the info if the restaurant is open or closed
+//                if (currentRestaurant.has("opening_hours")){
+//                    JSONObject opening_hours = currentRestaurant.getJSONObject("open_now");
+//                    restaurantStatus = opening_hours.getBoolean("open_now");
+//                }
+
+                //Extract the tags of the restaurant
+                if (currentRestaurant.has("types")) {
+                    JSONArray types = currentRestaurant.getJSONArray("types");
+                    for (int q = 0; q < types.length(); q++) {
+                        restaurantTags = types.getString(q);
+                    }
+                }
 
 
                 if (currentRestaurant.has("photos")) {
@@ -187,16 +227,14 @@ public class QueryUtils {
 
                         Log.e(LOG_TAG, "Image error is" + imageResource);
                     }
+                } else {
+                    imageResource = "http://sulaindianrestaurant.com/wp-content/uploads/2013/07/menu-placeholder.gif";
                 }
-
-
-//                //Extract the value for the key called "rating"
-//                Double distance = currentRestaurant.getDouble("rating");
 
 
                 // Create a new {@link Restaurant} object with the magnitude, location, time,
                 // and url from the JSON response.
-                Restaurant restaurant = new Restaurant(imageResource, restaurantName, restaurantLocation, 4.0);
+                Restaurant restaurant = new Restaurant(imageResource, restaurantName, restaurantLocation, 4.0, rating, latitude, longitude, restaurantStatus, restaurantTags);
 
                 // Add the new {@link Restaurant} to the list of restaurants.
                 restaurants.add(restaurant);

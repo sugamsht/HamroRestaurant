@@ -16,18 +16,40 @@ public class DetailActivity extends AppCompatActivity {
 
     private Restaurant currentRestaurant;
 
+    public Double getLatitude() {
+        Double latitude = currentRestaurant.getLatitude();
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        Double longitude = currentRestaurant.getLongitude();
+        return longitude;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        // Get the intent and retrieve the Book object from it.
+        // Get the intent and retrieve the Restaurant object from it.
         Intent intent = getIntent();
         currentRestaurant = intent.getParcelableExtra("currentRestaurant");
 
         // Get references to the views in the layout
         ImageView detailImageView = (ImageView) findViewById(R.id.detail_image_view);
         TextView titleTextView = (TextView) findViewById(R.id.detail_restaurant_title);
+
+
+//        TextView restaurantTags=(TextView)findViewById(R.id.restaurant_tags);
+//        restaurantTags.setText(currentRestaurant.getTags());
+//
+//
+//        TextView restaurantStatusView=(TextView)findViewById(R.id.open_now);
+//        restaurantStatusView.setText(currentRestaurant.getOpenNow());
+
+
+//        Double latitude = currentRestaurant.getLatitude();
+//        Double longitude= currentRestaurant.getLongitude();
 
         String imageUrl = currentRestaurant.getImageResource();
         if (imageUrl != null) {
@@ -59,6 +81,5 @@ public class DetailActivity extends AppCompatActivity {
         //   3. Set the tab layout's tab names with the view pager's adapter's titles
         //      by calling onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
-
     }
 }
