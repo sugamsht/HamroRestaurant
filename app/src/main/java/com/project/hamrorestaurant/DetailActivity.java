@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,9 +28,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get the intent and retrieve the Restaurant object from it.
         Intent intent = getIntent();
@@ -38,6 +55,11 @@ public class DetailActivity extends AppCompatActivity {
         // Get references to the views in the layout
         ImageView detailImageView = (ImageView) findViewById(R.id.detail_image_view);
         TextView titleTextView = (TextView) findViewById(R.id.detail_restaurant_title);
+
+        String location = currentRestaurant.getRestaurantLocation();
+        TextView restaurantLocation = (TextView) findViewById(R.id.detail_restaurant_location);
+        restaurantLocation.setText(location);
+
 
 
 //        TextView restaurantTags=(TextView)findViewById(R.id.restaurant_tags);

@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Sugam on 8/21/2017.
+ * Created by sugam on 8/21/2017.
  */
 
 public class Restaurant implements Parcelable {

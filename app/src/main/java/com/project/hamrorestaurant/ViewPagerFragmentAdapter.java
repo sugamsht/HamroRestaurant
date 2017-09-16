@@ -1,7 +1,7 @@
 package com.project.hamrorestaurant;
 
 /**
- * Created by Sugam on 9/4/2017.
+ * Created by sugam on 9/4/2017.
  */
 
 import android.content.Context;

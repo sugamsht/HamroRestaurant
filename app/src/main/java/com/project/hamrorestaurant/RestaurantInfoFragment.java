@@ -78,8 +78,6 @@ public class RestaurantInfoFragment extends Fragment {
 
                 // For dropping a marker at a point on the Map
 
-//                Double latitude = currentRestaurant.getLatitude();
-//                Double longitude= currentRestaurant.getLongitude();
                 LatLng thimi = new LatLng(latitude, longitude);
 //                Log.v(LOG_TAG,"The object latitude and longitude is:"+latitude +longitude);
 

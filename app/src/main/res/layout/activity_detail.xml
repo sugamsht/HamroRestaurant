@@ -18,6 +18,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:maxHeight="300dp"
             android:minHeight="150dp"
             tools:src="@mipmap/ic_launcher" />
 
@@ -25,11 +26,24 @@
             android:id="@+id/detail_restaurant_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/detail_image_view"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@+id/detail_image_view"
+            android:gravity="bottom"
             android:text="Detail Activity Goes Here"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             tools:text="Restaurant Title" />
+
+        <TextView
+            android:id="@+id/detail_restaurant_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/detail_restaurant_title"
+            android:layout_below="@+id/detail_restaurant_title"
+            android:layout_marginTop="20dp"
+            tools:text="The location is here" />
 
         <!--<TextView-->
         <!--android:id="@+id/restaurant_tags"-->

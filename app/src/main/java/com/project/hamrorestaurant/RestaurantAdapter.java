@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by Sugam on 8/21/2017.
+ * Created by sugam on 8/21/2017.
  */
 
 public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
