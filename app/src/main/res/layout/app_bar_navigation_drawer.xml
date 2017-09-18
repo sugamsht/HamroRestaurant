@@ -6,8 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.project.hamrorestaurant.RestaurantActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -20,13 +25,24 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        <EditText
+            android:id="@+id/inputSearch"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@android:drawable/ic_menu_search"
+            android:hint="Search Restaurant or Food items"
+            android:inputType="textVisiblePassword" />
+
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="55dp"
+            android:layout_marginTop="20dp"
         android:divider="@null"
         android:dividerHeight="15sp"
         android:orientation="vertical" />
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

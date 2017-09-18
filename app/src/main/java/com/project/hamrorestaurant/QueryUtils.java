@@ -39,7 +39,7 @@ public class QueryUtils {
     }
 
     /**
-     * Query the USGS dataset and return a list of {@link Restaurant} objects.
+     * Query the Google API and return a list of {@link Restaurant} objects.
      */
     public static List<Restaurant> fetchRestaurantData(String requestUrl) {
         // Create URL object

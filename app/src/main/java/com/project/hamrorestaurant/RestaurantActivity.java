@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
@@ -13,11 +15,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +31,26 @@ import java.util.List;
 public class RestaurantActivity extends Activity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOG_TAG = RestaurantActivity.class.getName();
+    private static final int Restaurant_LOADER_ID = 1;
     /**
      * URL for earthquake data from the USGS dataset
      */
     private static final String GOOGLE_REQUEST_URL =
             "https://maps.googleapis.com/maps/api/place/search/json?";
+    //Google Place API Parameters
     final String LOCATION_PARAM = "location";
     final String RADIUS_PARAM = "radius";
     final String KEYWORD_PARAM = "keyword";
     //  final String LANGUAGE_PARAM = "language";
     final String KEY_PARAM = "key";
     final String TYPES = "types";
+    final String KEYWORD = "keyword";
+    /**
+     * Variables to check network status and to get Loader Manager
+     */
+    private ConnectivityManager connMgr;
+    private NetworkInfo networkInfo;
+    private String realURL;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Toolbar mToolbar;
@@ -70,15 +85,42 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        final EditText searchInput = (EditText) findViewById(R.id.inputSearch);
+        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // Parse the base URL and prepare it for query parameters to be added.
+                Uri mDestinationUri = Uri.parse(GOOGLE_REQUEST_URL).buildUpon()
+                        .appendQueryParameter(LOCATION_PARAM, latitude + "," + longitude)
+                        .appendQueryParameter(RADIUS_PARAM, "1000")
+                        .appendQueryParameter(TYPES, "restaurant")
+                        .appendQueryParameter(KEYWORD, searchInput.getText().toString().trim())
+                        .appendQueryParameter(KEY_PARAM, "AIzaSyBDs67EpHkxvp3y3HETDsYrQXfe35hZ6hU")
+                        .build();
+
+                realURL = mDestinationUri.toString();
+                // Start the AsyncTask to fetch the restaurant data
+                RestaurantAsyncTask task = new RestaurantAsyncTask();
+                task.execute(realURL);
+                Log.v(LOG_TAG, "The updatedrealURL is " + realURL);
+
+                return true;
+
+            }
+        });
+
+
         // Parse the base URL and prepare it for query parameters to be added.
         Uri mDestinationUri = Uri.parse(GOOGLE_REQUEST_URL).buildUpon()
                 .appendQueryParameter(LOCATION_PARAM, latitude + "," + longitude)
-                .appendQueryParameter(RADIUS_PARAM, "1000")
+                .appendQueryParameter(RADIUS_PARAM, "2000")
                 .appendQueryParameter(TYPES, "restaurant")
+                .appendQueryParameter(KEYWORD, searchInput.getText().toString().trim())
                 .appendQueryParameter(KEY_PARAM, "AIzaSyBDs67EpHkxvp3y3HETDsYrQXfe35hZ6hU")
                 .build();
 
-        String realURL = mDestinationUri.toString();
+
+        realURL = mDestinationUri.toString();
 
         // Start the AsyncTask to fetch the restaurant data
         RestaurantAsyncTask task = new RestaurantAsyncTask();
