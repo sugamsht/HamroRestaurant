@@ -1,9 +1,10 @@
-package com.project.hamrorestaurant;
+package com.project.hamrorestaurant.detail;
 
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +12,16 @@ import android.widget.TextView;
 import android.support.design.widget.TabLayout;
 
 
+import com.project.hamrorestaurant.R;
+import com.project.hamrorestaurant.Restaurant;
 import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+
     private Restaurant currentRestaurant;
+    private RestaurantDetail currentRestaurantDetail;
 
     public Double getLatitude() {
         Double latitude = currentRestaurant.getLatitude();
@@ -25,6 +31,16 @@ public class DetailActivity extends AppCompatActivity {
     public Double getLongitude() {
         Double longitude = currentRestaurant.getLongitude();
         return longitude;
+    }
+
+    public String getRestaurantPlaceId() {
+        String place_id = currentRestaurant.getRestaurantPlaceId();
+        return place_id;
+    }
+
+    public String getAuthorName() {
+        String testid = currentRestaurantDetail.getAuthorName();
+        return testid;
     }
 
     @Override
@@ -51,13 +67,14 @@ public class DetailActivity extends AppCompatActivity {
         // Get the intent and retrieve the Restaurant object from it.
         Intent intent = getIntent();
         currentRestaurant = intent.getParcelableExtra("currentRestaurant");
+        Log.v(LOG_TAG, "current Restaurant intent is " + currentRestaurant);
 
         // Get references to the views in the layout
-        ImageView detailImageView = (ImageView) findViewById(R.id.detail_image_view);
-        TextView titleTextView = (TextView) findViewById(R.id.detail_restaurant_title);
+        ImageView detailImageView = findViewById(R.id.detail_image_view);
+        TextView titleTextView = findViewById(R.id.detail_restaurant_title);
 
         String location = currentRestaurant.getRestaurantLocation();
-        TextView restaurantLocation = (TextView) findViewById(R.id.detail_restaurant_location);
+        TextView restaurantLocation = findViewById(R.id.detail_restaurant_location);
         restaurantLocation.setText(location);
 
 
@@ -84,7 +101,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         // Find the view pager that will allow the user to swipe between fragments
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
 
         // Create an adapter that knows which fragment should be shown on each page
@@ -95,7 +112,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
         // Find the tab layout that shows the tabs
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         // Connect the tab layout with the view pager. This will
         //   1. Update the tab layout when the view pager is swiped

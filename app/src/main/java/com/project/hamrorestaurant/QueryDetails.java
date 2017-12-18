@@ -3,6 +3,8 @@ package com.project.hamrorestaurant;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.project.hamrorestaurant.detail.RestaurantDetail;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,28 +25,28 @@ import java.util.List;
  */
 
 
-public class QueryUtils {
+public class QueryDetails {
 
     /**
      * Tag for the log messages
      */
-    private static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    private static final String LOG_TAG = QueryDetails.class.getSimpleName();
 
     /**
-     * Create a private constructor because no one should ever create a {@link QueryUtils} object.
+     * Create a private constructor because no one should ever create a {@link QueryDetails} object.
      * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
+     * directly from the class name QueryDetails (and an object instance of QueryDetails is not needed).
      */
-    private QueryUtils() {
+    private QueryDetails() {
     }
 
     /**
      * Query the Google API and return a list of {@link Restaurant} objects.
      */
-    public static List<Restaurant> fetchRestaurantData(String requestUrl) {
+    public static List<RestaurantDetail> fetchRestaurantData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
-        Log.e(LOG_TAG, "The parsable url is " + url);
+        Log.e(LOG_TAG, "The parsable detail url is " + url);
 
 
         // Perform HTTP request to the URL and receive a JSON response back
@@ -55,7 +57,7 @@ public class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
         // Extract relevant fields from the JSON response and create a list of {@link Restaurant}s
-        List<Restaurant> restaurants = extractFeatureFromJson(jsonResponse);
+        List<RestaurantDetail> restaurants = extractFeatureFromJson(jsonResponse);
 
         // Return the list of {@link Restaurants}s
         return restaurants;
@@ -137,17 +139,17 @@ public class QueryUtils {
     }
 
     /**
-     * Return a list of {@link Restaurant} objects that has been built up from
+     * Return a list of {@link RestaurantDetail} objects that has been built up from
      * parsing the given JSON response.
      */
-    private static List<Restaurant> extractFeatureFromJson(String restaurantJSON) {
+    private static List<RestaurantDetail> extractFeatureFromJson(String restaurantJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(restaurantJSON)) {
             return null;
         }
 
         // Create an empty ArrayList that we can start adding restaurants to
-        List<Restaurant> restaurants = new ArrayList<>();
+        List<RestaurantDetail> restaurants = new ArrayList<>();
 
         // Try to parse the JSON response string. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
@@ -157,102 +159,41 @@ public class QueryUtils {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(restaurantJSON);
 
+            //for detail activities
+            JSONObject detailrestaurant = baseJsonResponse.getJSONObject("result");
 
-            // Extract the JSONArray associated with the key called "results",
-            // which represents a list of features (or restaurants).
-            JSONArray restaurantArray = baseJsonResponse.getJSONArray("results");
+            JSONArray reviewsArray = detailrestaurant.getJSONArray("reviews");
 
-            // For each restaurant in the restaurantArray, create an {@link Restaurant} object
-            for (int i = 0; i < restaurantArray.length(); i++) {
-
-                String imageResource = null;
-                String restaurantName = null;
-                String restaurantLocation = null;
-                String imageResourceA = null;
-                String restaurantPlaceId = null;
-                String lati = null;
-                String longi = null;
-                Double latitude = null;
-                Double longitude = null;
+            for (int i = 0; i < reviewsArray.length(); i++) {
+                String author_name = null;
+                String author_url = null;
+                String profile_photo_url = null;
                 Double rating = null;
-                String restaurantStatus = "true";
-                String restaurantTags = null;
+                String relative_time_description = null;
+                String text = null;
 
+                JSONObject currentReview = reviewsArray.getJSONObject(i);
 
+                author_name = currentReview.getString("author_name");
+                Log.e(LOG_TAG, "The real author name is " + author_name);
 
-                // Get a single restaurant at position i within the list of restaurants
-                JSONObject currentRestaurant = restaurantArray.getJSONObject(i);
+                author_url = currentReview.getString("author_url");
+                profile_photo_url = currentReview.getString("profile_photo_url");
+                rating = currentReview.getDouble("rating");
+                relative_time_description = currentReview.getString("relative_time_description");
+                text = currentReview.getString("text");
 
-                JSONObject geometry = currentRestaurant.getJSONObject("geometry");
+                RestaurantDetail restaurantDetail = new RestaurantDetail(author_name);
 
-                JSONObject location = geometry.getJSONObject("location");
-                lati = location.getString("lat");
-                latitude = Double.parseDouble(lati);
-//                    Log.v(LOG_TAG, "Google Latitude is: " + latitude);
-                longi = location.getString("lng");
-                longitude = Double.parseDouble(longi);
-//                    Log.v(LOG_TAG, "Google Longitude is: " + longitude);
-
-                if (currentRestaurant.has("rating")) {
-                    rating = currentRestaurant.getDouble("rating");
-                } else {
-                    rating = 0.0;
-                }
-
-                //Extract the value for the key called "place_id"
-                restaurantPlaceId = currentRestaurant.getString("place_id");
-                Log.e(LOG_TAG, "The restaurantPlaceId is " + restaurantPlaceId);
-
-                // Extract the value for the key called "name"
-                restaurantName = currentRestaurant.getString("name");
-
-                //Extract the location of the restaurant from key "vicinity"
-                restaurantLocation = currentRestaurant.getString("vicinity");
-
-                //Extract the info if the restaurant is open or closed
-//                if (currentRestaurant.has("opening_hours")){
-//                    JSONObject opening_hours = currentRestaurant.getJSONObject("open_now");
-//                    restaurantStatus = opening_hours.getBoolean("open_now");
-//                }
-
-                //Extract the tags of the restaurant
-                if (currentRestaurant.has("types")) {
-                    JSONArray types = currentRestaurant.getJSONArray("types");
-                    for (int q = 0; q < types.length(); q++) {
-                        restaurantTags = types.getString(q);
-                    }
-                }
-
-
-                if (currentRestaurant.has("photos")) {
-                    JSONArray photos = currentRestaurant.getJSONArray("photos");
-                    for (int j = 0; j < photos.length(); j++) {
-                        JSONObject photoObject = photos.getJSONObject(j);
-                        imageResourceA = photoObject.getString("photo_reference");
-
-                        imageResource = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + imageResourceA +
-                                "&key=AIzaSyBDs67EpHkxvp3y3HETDsYrQXfe35hZ6hU";
-
-                        Log.e(LOG_TAG, "Image error is" + imageResource);
-                    }
-                } else {
-                    imageResource = "http://sulaindianrestaurant.com/wp-content/uploads/2013/07/menu-placeholder.gif";
-                }
-
-
-                // Create a new {@link Restaurant} object with the magnitude, location, time,
-                // and url from the JSON response.
-                Restaurant restaurant = new Restaurant(imageResource, restaurantName, restaurantLocation, rating, latitude, longitude, restaurantPlaceId, restaurantStatus, restaurantTags);
-
-                // Add the new {@link Restaurant} to the list of restaurants.
-                restaurants.add(restaurant);
+                restaurants.add(restaurantDetail);
             }
+
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the restaurant JSON results", e);
+            Log.e("QueryDetails", "Problem parsing the restaurant JSON results", e);
         }
 
         // Return the list of restaurants

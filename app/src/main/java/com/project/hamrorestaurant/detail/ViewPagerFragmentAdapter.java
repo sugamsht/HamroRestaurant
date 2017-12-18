@@ -1,4 +1,4 @@
-package com.project.hamrorestaurant;
+package com.project.hamrorestaurant.detail;
 
 /**
  * Created by sugam on 9/4/2017.
@@ -8,6 +8,9 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.project.hamrorestaurant.R;
+import com.project.hamrorestaurant.Restaurant;
 
 /**
  * {@link ViewPagerFragmentAdapter} is a {@link FragmentPagerAdapter} that can provide the layout for

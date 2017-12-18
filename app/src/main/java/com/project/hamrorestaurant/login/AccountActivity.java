@@ -1,9 +1,10 @@
-package com.project.hamrorestaurant;
+package com.project.hamrorestaurant.login;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.project.hamrorestaurant.FontHelper;
+import com.project.hamrorestaurant.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -29,6 +32,7 @@ import java.util.Locale;
 
 public class AccountActivity extends AppCompatActivity {
 
+    public static final String LOG_TAG = AccountActivity.class.getSimpleName();
     ProfileTracker profileTracker;
     ImageView profilePic;
     TextView id;
@@ -41,10 +45,10 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         FontHelper.setCustomTypeface(findViewById(R.id.view_root));
 
-        profilePic = (ImageView) findViewById(R.id.profile_image);
-        id = (TextView) findViewById(R.id.id);
-        infoLabel = (TextView) findViewById(R.id.info_label);
-        info = (TextView) findViewById(R.id.info);
+        profilePic = findViewById(R.id.profile_image);
+        id = findViewById(R.id.id);
+        infoLabel = findViewById(R.id.info_label);
+        info = findViewById(R.id.info);
 
         // register a receiver for the onCurrentProfileChanged event
         profileTracker = new ProfileTracker() {
@@ -116,7 +120,7 @@ public class AccountActivity extends AppCompatActivity {
         launchLoginActivity();
     }
 
-    private void displayProfileInfo(Profile profile) {
+    public void displayProfileInfo(Profile profile) {
         // get Profile ID
         String profileId = profile.getId();
         id.setText(profileId);
@@ -129,6 +133,19 @@ public class AccountActivity extends AppCompatActivity {
         // display the profile picture
         Uri profilePicUri = profile.getProfilePictureUri(100, 100);
         displayProfilePic(profilePicUri);
+    }
+
+
+    public String getAuthorName(Profile profile) {
+
+        // display the Profile name
+        String name = profile.getName();
+        return name;
+//       TextView info = (TextView) findViewById(R.id.info);
+//        String name= info.getText().toString();
+//        Log.v(LOG_TAG,"THe author name is " + name);
+//        return name;
+
     }
 
     private void launchLoginActivity() {

@@ -1,4 +1,4 @@
-package com.project.hamrorestaurant;
+package com.project.hamrorestaurant.login;
 
 
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.facebook.accountkit.ui.LoginType;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.project.hamrorestaurant.FontHelper;
+import com.project.hamrorestaurant.R;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         FontHelper.setCustomTypeface(findViewById(R.id.view_root));
 
-        loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+        loginButton = findViewById(R.id.facebook_login_button);
         loginButton.setReadPermissions("email");
 
         // Login Button callback registration

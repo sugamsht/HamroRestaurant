@@ -29,14 +29,18 @@ public class Restaurant implements Parcelable {
     private String mImageResource = NO_IMAGE_PROVIDED;
     private String mRestaurantName;
     private String mRestaurantLocation;
-    private Double mDistance;
+    //    private Double mDistance;
     private Double mRating;
     private Double mLatitude;
     private Double mLongitude;
     private String mopenNow;
     private String mTags;
     private String mWebsite;
-    private Double mphoneNumber;
+    private Double mPhoneNumber;
+    private String mRestaurantPlaceId;
+
+
+//    private String mTestId;
 
 
     /**
@@ -46,17 +50,21 @@ public class Restaurant implements Parcelable {
      * @param restaurantName is the name of the restaurant
      * @param restaurantLocation is the location of the restaurant
      */
-    public Restaurant(String imageResource, String restaurantName, String restaurantLocation, Double distance, Double rating,
-                      Double latitude, Double longitude, String openNow, String tags) {
+    public Restaurant(String imageResource, String restaurantName, String restaurantLocation, Double rating,
+                      Double latitude, Double longitude, String restaurantPlaceId, String openNow, String tags) {
         mImageResource = imageResource;
         mRestaurantName = restaurantName;
         mRestaurantLocation = restaurantLocation;
-        mDistance = distance;
+//        mDistance = distance;
         mRating = rating;
         mLatitude = latitude;
+        mRestaurantPlaceId = restaurantPlaceId;
         mLongitude = longitude;
         mopenNow = openNow;
         mTags = tags;
+
+//
+//        mTestId=testId;
 
     }
 
@@ -64,12 +72,15 @@ public class Restaurant implements Parcelable {
         mImageResource = in.readString();
         mRestaurantName = in.readString();
         mRestaurantLocation = in.readString();
-        mDistance = in.readDouble();
+//        mDistance = in.readDouble();
         mRating = in.readDouble();
         mLatitude = in.readDouble();
         mLongitude = in.readDouble();
+        mRestaurantPlaceId = in.readString();
         mopenNow = in.readString();
         mTags = in.readString();
+
+//        mTestId=in.readString();
 
     }
 
@@ -78,12 +89,15 @@ public class Restaurant implements Parcelable {
         dest.writeString(mImageResource);
         dest.writeString(mRestaurantName);
         dest.writeString(mRestaurantLocation);
-        dest.writeDouble(mDistance);
+//        dest.writeDouble(mDistance);
         dest.writeDouble(mRating);
         dest.writeDouble(mLatitude);
         dest.writeDouble(mLongitude);
+        dest.writeString(mRestaurantPlaceId);
         dest.writeString(mopenNow);
         dest.writeString(mTags);
+
+//        dest.writeString(mTestId);
 
     }
 
@@ -115,10 +129,10 @@ public class Restaurant implements Parcelable {
     }
 
 
-    //Returns the distance between restautant and the user
-    public Double getDistance(){
-        return mDistance;
-    }
+//    //Returns the distance between restautant and the user
+//    public Double getDistance(){
+//        return mDistance;
+//    }
 
 
     //Returns the rating of the restaurant
@@ -136,6 +150,11 @@ public class Restaurant implements Parcelable {
         return mLongitude;
     }
 
+    //Returns the PlaceId of the restaurant
+    public String getRestaurantPlaceId() {
+        return mRestaurantPlaceId;
+    }
+
     //Returns if the of the restaurant is open or closed
     public String getOpenNow() {
         return mopenNow;
@@ -149,6 +168,9 @@ public class Restaurant implements Parcelable {
     //Returns the website of the restaurant
 
     //Returns the phonenumber of the restaurant
+
+//    //Test
+//    public String getTestId(){return mTestId; }
 
     /**
      * Returns whether or not there is an image for this word.

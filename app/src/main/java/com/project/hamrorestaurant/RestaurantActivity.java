@@ -1,7 +1,9 @@
 package com.project.hamrorestaurant;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -19,11 +21,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.project.hamrorestaurant.data.RestaurantDBHelper;
+import com.project.hamrorestaurant.data.RestaurantEntry;
+import com.project.hamrorestaurant.detail.DetailActivity;
+import com.project.hamrorestaurant.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,18 +39,22 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
     private static final String LOG_TAG = RestaurantActivity.class.getName();
     private static final int Restaurant_LOADER_ID = 1;
     /**
-     * URL for earthquake data from the USGS dataset
+     * URL for restaurant data from the Google Places API
      */
     private static final String GOOGLE_REQUEST_URL =
             "https://maps.googleapis.com/maps/api/place/search/json?";
     //Google Place API Parameters
     final String LOCATION_PARAM = "location";
+
+    //    private static final String GOOGLE_PLACE_ID_URL=
+//            "https://maps.googleapis.com/maps/api/place/details/json?";
     final String RADIUS_PARAM = "radius";
     final String KEYWORD_PARAM = "keyword";
     //  final String LANGUAGE_PARAM = "language";
     final String KEY_PARAM = "key";
     final String TYPES = "types";
     final String KEYWORD = "keyword";
+    RestaurantDBHelper mDbHelper;
     /**
      * Variables to check network status and to get Loader Manager
      */
@@ -72,9 +82,9 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
         setContentView(R.layout.activity_navigation_drawer);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mNavigationView = findViewById(R.id.nav_view);
+        mToolbar = findViewById(R.id.toolbar);
         mNavigationView.setNavigationItemSelectedListener(this);
 
         mToolbar.setTitle(R.string.app_name);
@@ -85,7 +95,7 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        final EditText searchInput = (EditText) findViewById(R.id.inputSearch);
+        final EditText searchInput = findViewById(R.id.inputSearch);
         searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -129,7 +139,7 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
 
 
         // Find a reference to the {@link ListView} in the layout
-        ListView restaurantListView = (ListView) findViewById(R.id.list);
+        ListView restaurantListView = findViewById(R.id.list);
 
         // Create a new adapter that takes an empty list of restaurants as input
         mAdapter = new RestaurantAdapter(this, new ArrayList<Restaurant>());
@@ -160,7 +170,7 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -187,6 +197,14 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
             return true;
         }
 
+        if (id == R.id.action_insert_dummy_data) {
+            return true;
+        }
+
+        if (id == R.id.action_delete_all_entries) {
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -206,6 +224,8 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
             startActivity(signIn);
 
         } else if (id == R.id.nav_favorite) {
+            insertReview();
+
 
         } else if (id == R.id.nav_review) {
 
@@ -223,10 +243,24 @@ public class RestaurantActivity extends Activity implements NavigationView.OnNav
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void insertReview() {
+        mDbHelper = new RestaurantDBHelper(this);
+        // Gets the database in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RestaurantEntry.COLUMN_REVIEW_NAME, "Sugam Shrestha");
+        values.put(RestaurantEntry.COLUMN_REVIEW_COMMENT, "THe food is really good my friend " +
+                "like really really gooood");
+        values.put(RestaurantEntry.COLUMN_REVIEW_RATING, 5);
+
+        long newRowId = db.insert(RestaurantEntry.TABLE_REVIEW, null, values);
+    }
+
 
 
     private class RestaurantAsyncTask extends AsyncTask<String, Void, List<Restaurant>> {

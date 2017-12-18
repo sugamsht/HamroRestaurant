@@ -39,16 +39,16 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 
         Restaurant currentRestaurant = getItem(position);
 
-        TextView nameTextView = (TextView) listItemView.findViewById(R.id.restaurantName);
+        TextView nameTextView = listItemView.findViewById(R.id.restaurantName);
         nameTextView.setText(currentRestaurant.getRestaurantName());
 
-        TextView locationTextView = (TextView) listItemView.findViewById(R.id.restaurantLocation);
+        TextView locationTextView = listItemView.findViewById(R.id.restaurantLocation);
         locationTextView.setText(currentRestaurant.getRestaurantLocation());
 
-        TextView distanceTextView = (TextView) listItemView.findViewById(R.id.distance);
-        distanceTextView.setText(String.valueOf(currentRestaurant.getDistance()));
+//        TextView distanceTextView = (TextView) listItemView.findViewById(R.id.distance);
+//        distanceTextView.setText(String.valueOf(currentRestaurant.getDistance()));
 
-        TextView ratingTextView = (TextView) listItemView.findViewById((R.id.rating));
+        TextView ratingTextView = listItemView.findViewById((R.id.rating));
         ratingTextView.setText(String.valueOf(currentRestaurant.getRating()));
 
 //        // Set the theme color for the list item
@@ -58,7 +58,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 //        // Set the background color of the text container View
 //        textContainer.setBackgroundColor(color);
 
-        ImageView imageView = (ImageView) listItemView.findViewById(R.id.restaurantImage);
+        ImageView imageView = listItemView.findViewById(R.id.restaurantImage);
         String imageUrl = currentRestaurant.getImageResource();
         if (imageUrl != null) {
             // Using Picasso, download the Image from the internet. Picasso will automatically handle
